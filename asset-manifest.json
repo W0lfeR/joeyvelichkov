@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/joeyvelichkov/static/css/main.f3aaff3d.css",
-    "main.js": "/joeyvelichkov/static/js/main.3968685e.js",
+    "main.js": "/joeyvelichkov/static/js/main.471cf255.js",
     "static/js/787.2114420f.chunk.js": "/joeyvelichkov/static/js/787.2114420f.chunk.js",
     "static/media/Joey.jpg": "/joeyvelichkov/static/media/Joey.817d52307bd5d80d31cf.jpg",
     "static/media/Matter-SemiBold.otf": "/joeyvelichkov/static/media/Matter-SemiBold.fdf6f3d10d5de816a162.otf",
@@ -11,11 +11,11 @@
     "static/media/exeshishaclub.jpg": "/joeyvelichkov/static/media/exeshishaclub.a864aaf85a78fed2f59c.jpg",
     "index.html": "/joeyvelichkov/index.html",
     "main.f3aaff3d.css.map": "/joeyvelichkov/static/css/main.f3aaff3d.css.map",
-    "main.3968685e.js.map": "/joeyvelichkov/static/js/main.3968685e.js.map",
+    "main.471cf255.js.map": "/joeyvelichkov/static/js/main.471cf255.js.map",
     "787.2114420f.chunk.js.map": "/joeyvelichkov/static/js/787.2114420f.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f3aaff3d.css",
-    "static/js/main.3968685e.js"
+    "static/js/main.471cf255.js"
   ]
 }
