@@ -1,0 +1,91 @@
+@font-face {
+  font-family: 'EuclidCircular';
+  src: url('https://storage.googleapis.com/graph-fonts/EuclidCircular/EuclidCircularA-Regular-WebM.woff2')
+      format('woff2'),
+    url('https://storage.googleapis.com/graph-fonts/EuclidCircular/EuclidCircularA-Regular-WebM.woff')
+      format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'EuclidCircular';
+  src: url('https://storage.googleapis.com/graph-fonts/EuclidCircular/EuclidCircularA-Bold-WebM.woff2')
+      format('woff2'),
+    url('https://storage.googleapis.com/graph-fonts/EuclidCircular/EuclidCircularA-Bold-WebM.woff')
+      format('woff');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'EuclidCircular';
+  src: url('https://storage.googleapis.com/graph-fonts/EuclidCircular/EuclidCircularA-Light.woff2')
+      format('woff2'),
+    url('https://storage.googleapis.com/graph-fonts/EuclidCircular/EuclidCircularA-Light.woff')
+      format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'EuclidCircular';
+  src: url('https://storage.googleapis.com/graph-fonts/EuclidCircular/EuclidCircularA-Medium-WebM.woff2')
+      format('woff2'),
+    url('https://storage.googleapis.com/graph-fonts/EuclidCircular/EuclidCircularA-Medium-WebM.woff')
+      format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+*:focus {
+    outline: none;
+}
+
+@font-face {
+  font-family: 'Matter';
+  src: local('Matter'), url(../fonts/Matter-Medium.otf) format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Matter';
+  src: local('Matter'), url(../fonts/Matter-Regular.otf) format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Matter';
+  src: local('Matter'), url(../fonts/Matter-SemiBold.otf) format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+
+/* 
+html, body {
+  font-family: "Matter";
+  margin: 0;
+  background-color: #07050F;
+  color: #fff;
+}
+
+#root {
+  height: 100%;
+} */

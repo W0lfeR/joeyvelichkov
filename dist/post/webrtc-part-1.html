@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="icon" href="./favicon.ico"/><title>Joey Velichkov</title><meta name="description" content="Joey Velichkov"/><meta name="next-head-count" content="5"/><link data-next-font="" rel="preconnect" href="/" crossorigin="anonymous"/><link rel="preload" href="/fj/_next/static/css/14a7a166eab329b6.css" as="style"/><link rel="stylesheet" href="/fj/_next/static/css/14a7a166eab329b6.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/fj/_next/static/chunks/polyfills-c67a75d1b6f99dc8.js"></script><script src="/fj/_next/static/chunks/webpack-6695b041dbf51f21.js" defer=""></script><script src="/fj/_next/static/chunks/framework-b31dd959a3bdfd87.js" defer=""></script><script src="/fj/_next/static/chunks/main-c5f3283c93904e83.js" defer=""></script><script src="/fj/_next/static/chunks/pages/_app-224e93d289f8aff9.js" defer=""></script><script src="/fj/_next/static/chunks/980-e82a34072e7d6781.js" defer=""></script><script src="/fj/_next/static/chunks/pages/post/%5Bslug%5D-376f04165c0e284c.js" defer=""></script><script src="/fj/_next/static/A1-nTi905Wlajv3qpOUpO/_buildManifest.js" defer=""></script><script src="/fj/_next/static/A1-nTi905Wlajv3qpOUpO/_ssgManifest.js" defer=""></script></head><body><div id="__next"><div class="postPage"><h1>WebRTC For Beginners - Part 1</h1><div><p>Contents:</p>
+<ol>
+<li>Part 1: Introduction to WebRTC and creating the signaling server <a href="https://dev.to/ethand91/webrtc-for-beginners-1l14">Link</a></li>
+<li>Part 2: Understanding the MediaDevices API and getting access to the user’s media devices <a href="https://dev.to/ethand91/webrtc-for-beginners-part-2-mediadevices-142d">Link</a></li>
+<li>Part 3: Creating the peers and sending/receiving media [Link] (https://dev.to/ethand91/webrtc-for-beginners-part-3-creating-the-peers-and-sendingreceiving-media-4lab)</li>
+<li>Part 4: Sharing and sending the user’s display and changing tracks <a href="https://dev.to/ethand91/webrtc-for-beginners-part-4-screen-share-42p6">Link</a></li>
+<li>Part 5: Data Channels basics [Link] (https://dev.to/ethand91/webrtc-for-beginners-part-5-data-channels-l3m)</li>
+<li>Part 5.5: Building the WebRTC Android Library <a href="https://dev.to/ethand91/webrtc-for-beginners-part-55-building-the-webrtc-android-library-e8l">Link</a></li>
+<li>Part 6: Android native peer <a href="https://dev.to/ethand91/webrtc-for-beginners-part-6-android-231l">Link</a></li>
+<li>Part 7: iOS native peer</li>
+<li>Part 8: Where to go from here</li>
+</ol>
+<hr>
+<h3>Part 1: Introduction to WebRTC and creating the signaling server</h3>
+<p>Hello, due to finding not too much information regarding WebRTC I have decided to create a tutorial. Hopefully it is helpful to anyone looking into trying out WebRTC.</p>
+<p>While WebRTC is not a new technology it is constantly evolving. I will try to update this as new changes occur.</p>
+<p>WebRTC is short for (Web Real-Time Communication), and allows Peers to send/receive media/data via P2P.</p>
+<p>Before we dive into the fun parts, we need to set up a Signaling server so that the peers can initially communicate, the protocol for this can be anything but it usually ends up being WebSockets. It’s also possible after the initial signaling is complete to use Data Channels, which we will leave until later.</p>
+<p>With that being said, let’s start on creating the signaling server.
+The signaling server can be any language, but for simplicity’s sake I will be using JavaScript and Nodejs.
+Since WebRTC does not work on insecure addresses we will also need to provide a self signed certificate. (Don’t used self signed if you’re planning to take it to production.)</p>
+<p>Requirements:</p>
+<ul>
+<li>A Computer (obviously)</li>
+<li>Nodejs</li>
+</ul>
+<p>IDE can be anything of your choice. I generally prefer Vim, since I’m always using the terminal.
+Well then let’s get started!</p>
+<p>First create a directory for the server and initialize the application.</p>
+<pre><code class="language-bash">mkdir signal-server &amp;&amp; cd signal-server
+# Also make a directory for the src files
+mkdir src
+npm init -y
+</code></pre>
+<p>This will create the package.json file, next we need to install the modules needed.</p>
+<pre><code class="language-bash">npm i ws #WebSocket server
+npm i nanoid #Used to create a unique id
+npm i express #Used to serve static pages
+</code></pre>
+<p>The WebSocket module can be anything but for simplicity’s sake I decided to use the ws module.</p>
+<p>Next we need to create a self signed certificate in order to handle https connections.</p>
+<pre><code class="language-bash">mkdir ssl &amp;&amp; cd ssl
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout cert.key -out cert.pem
+</code></pre>
+<p>Next we will create the code for the server, create a new file called “server.js” in the src folder.
+Now open it up in your preferred IDE, let’s get started!
+First we import the modules that we will use.</p>
+<pre><code class="language-javascript">const express = require('express');
+const { createServer } = require('https');
+const { readFileSync } = require('fs');
+const { nanoid } = require('nanoid');
+const { resolve } = require('path');
+const { WebSocketServer, OPEN } = require('ws');
+</code></pre>
+<p>We will be creating two https servers, one for the web socket and the other to serve static pages.</p>
+<p>Next we create the web socket server and the server to serve our static files.</p>
+<pre><code class="language-javascript">const appServer = createServer({
+  cert: readFileSync(resolve(__dirname, './../ssl/cert.pem')),
+  key: readFileSync(resolve(__dirname, './../ssl/cert.key'))
+}, app).listen(3000);
+
+app.use(express.static(resolve(__dirname, './../public')));
+
+const wsServer = createServer({
+  cert: readFileSync(resolve(__dirname, './../ssl/cert.pem')),
+  key: readFileSync(resolve(__dirname, './../ssl/cert.key'))
+});
+const wss = new WebSocketServer({ server: wsServer });
+</code></pre>
+<p>Next we listen for any web socket connections and handle them. Don’t worry about the functions we haven’t defined yet, they we will be defined later.</p>
+<pre><code class="language-javascript">wss.on('connection', (socket) =&gt; {
+  console.log('new connection');
+
+  socket.on('message', (data) =&gt; {
+    console.log('socket::message data=%s', data);
+
+    try {
+      const jsonMessage = JSON.parse(data);
+      handleJsonMessage(socket, jsonMessage);
+    } catch (error) {
+      console.error('failed to handle onmessage', error);
+    }
+  });
+
+
+  socket.once('close', () =&gt; {
+    console.log('socket::close');
+  });
+}); 
+</code></pre>
+<p>Above we listen for any connections, once a connection is established we listen for any messages that come through and parse them into JSON.</p>
+<p>Now we can define the function to handle parsed JSON messages.</p>
+<pre><code class="language-javascript">const handleJsonMessage = (socket, jsonMessage) =&gt; {
+  switch (jsonMessage.action) {
+    case 'start':
+      socket.id = nanoid();
+      emitMessage(socket, { action: 'start', id: socket.id }); 
+      break;
+    default: 
+      // Default we will just relay the message to the peer
+      if (!jsonMessage.data.remoteId) return;
+
+      const remotePeerSocket = getSocketById(jsonMessage.data.remoteId);
+
+      if (!remotePeerSocket) {
+        return console.log('failed to find remote socket with id', jsonMessage.data.remoteId);
+      }
+
+      // delete/edit the remoteId depending if the action is offer or not
+      if (jsonMessage.action !== 'offer') {
+        delete jsonMessage.data.remoteId;
+      } else {
+        jsonMessage.data.remoteId = socket.id;
+      }
+
+      emitMessage(remotePeerSocket, jsonMessage);
+  }
+};
+</code></pre>
+<p>Here we get the action from the parsed JSON, if the action is “start” we give the socket a unique ID and send it back to the client.
+Anything else we get the socket of the other peer and just relay the message to them.
+If the action is not “offer” we delete the remote id as it is not needed anymore. If the action is “offer” we “switch” the remote id to the other party in order to receive an answer.</p>
+<p>Next we will create the two helper functions that are missing.</p>
+<pre><code class="language-javascript">const emitMessage = (socket, jsonMessage) =&gt; {
+  if (socket.readyState === OPEN) {
+    socket.send(JSON.stringify(jsonMessage));
+  }
+};
+
+// Helper to get socket via id
+const getSocketById = (socketId) =&gt;
+  Array.from(wss.clients).find((client =&gt; client.id === socketId));
+</code></pre>
+<p>emitMessage simply sends a message to a socket if it is in open state.
+getSocketById simply returns a socket based on the socket id. (Unique id we defined with nanoid)</p>
+<p>Finally let’s start up the web socket server and start listening.</p>
+<pre><code class="language-javascript">wsServer.listen(8888);
+console.log('app server listening on port 3000');
+console.log('wss server listening on port 8888');
+</code></pre>
+<p>That’s the signaling server sorted.
+Now let’s see if it starts!</p>
+<pre><code class="language-bash">node src/server.js
+
+# This should print the following output
+app server listening on port 3000
+wss server listening on port 8888
+</code></pre>
+<p>If you get the above output that means the signaling server is ready to go!</p>
+<p>In the next part we will go into getting the user’s media devices (Camera and Mic) and the constraints we can use to do so.
+Hope to see you in the next part!
+https://dev.to/ethand91/webrtc-for-beginners-part-2-mediadevices-142d</p>
+<p>Source Code: https://github.com/ethand91/webrtc-tutorial</p>
+<hr>
+<p>Bonus: Things to consider:</p>
+<ul>
+<li>The current signaling server only handles 1 to 1, how could you make it so it support up to 4 clients?</li>
+<li>It also only supports 1 call, how could you make it support multiple?</li>
+</ul>
+<hr>
+<p>Like me work? Any support is appreciated. :)
+<a href="https://www.buymeacoffee.com/ethand9999"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="&quot;Buy Me A Coffee&quot;"></a></p>
+</div></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"frontmatter":{"title":"WebRTC For Beginners - Part 1","metaTitle":"WebRTC For Beginners","metaDesc":"WebRTC For Beginners","socialImage":"assets/images/webrtc.jpg","date":"2022-01-12","tags":["webrtc"]},"content":"\nContents:\n1. Part 1: Introduction to WebRTC and creating the signaling server [Link](https://dev.to/ethand91/webrtc-for-beginners-1l14)\n2. Part 2: Understanding the MediaDevices API and getting access to the user’s media devices [Link](https://dev.to/ethand91/webrtc-for-beginners-part-2-mediadevices-142d)\n3. Part 3: Creating the peers and sending/receiving media [Link] (https://dev.to/ethand91/webrtc-for-beginners-part-3-creating-the-peers-and-sendingreceiving-media-4lab)\n4. Part 4: Sharing and sending the user’s display and changing tracks [Link](https://dev.to/ethand91/webrtc-for-beginners-part-4-screen-share-42p6)\n5. Part 5: Data Channels basics [Link] (https://dev.to/ethand91/webrtc-for-beginners-part-5-data-channels-l3m)\n6. Part 5.5: Building the WebRTC Android Library [Link](https://dev.to/ethand91/webrtc-for-beginners-part-55-building-the-webrtc-android-library-e8l)\n7. Part 6: Android native peer [Link](https://dev.to/ethand91/webrtc-for-beginners-part-6-android-231l)\n8. Part 7: iOS native peer\n9. Part 8: Where to go from here\n\n- - - -\n### Part 1: Introduction to WebRTC and creating the signaling server\n\nHello, due to finding not too much information regarding WebRTC I have decided to create a tutorial. Hopefully it is helpful to anyone looking into trying out WebRTC. \n\nWhile WebRTC is not a new technology it is constantly evolving. I will try to update this as new changes occur. \n\nWebRTC is short for (Web Real-Time Communication), and allows Peers to send/receive media/data via P2P.\n\nBefore we dive into the fun parts, we need to set up a Signaling server so that the peers can initially communicate, the protocol for this can be anything but it usually ends up being WebSockets. It’s also possible after the initial signaling is complete to use Data Channels, which we will leave until later. \n\nWith that being said, let’s start on creating the signaling server.\nThe signaling server can be any language, but for simplicity’s sake I will be using JavaScript and Nodejs.\nSince WebRTC does not work on insecure addresses we will also need to provide a self signed certificate. (Don’t used self signed if you’re planning to take it to production.)\n\nRequirements:\n* A Computer (obviously)\n* Nodejs\n\nIDE can be anything of your choice. I generally prefer Vim, since I’m always using the terminal.\nWell then let’s get started!\n\nFirst create a directory for the server and initialize the application.\n\n```bash\nmkdir signal-server \u0026\u0026 cd signal-server\n# Also make a directory for the src files\nmkdir src\nnpm init -y\n```\n\nThis will create the package.json file, next we need to install the modules needed.\n\n```bash\nnpm i ws #WebSocket server\nnpm i nanoid #Used to create a unique id\nnpm i express #Used to serve static pages\n```\n\nThe WebSocket module can be anything but for simplicity’s sake I decided to use the ws module.\n\nNext we need to create a self signed certificate in order to handle https connections. \n\n```bash\nmkdir ssl \u0026\u0026 cd ssl\nopenssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout cert.key -out cert.pem\n```\n\nNext we will create the code for the server, create a new file called “server.js” in the src folder.\nNow open it up in your preferred IDE, let’s get started!\nFirst we import the modules that we will use.\n\n```javascript\nconst express = require('express');\nconst { createServer } = require('https');\nconst { readFileSync } = require('fs');\nconst { nanoid } = require('nanoid');\nconst { resolve } = require('path');\nconst { WebSocketServer, OPEN } = require('ws');\n```\n\nWe will be creating two https servers, one for the web socket and the other to serve static pages. \n\nNext we create the web socket server and the server to serve our static files.\n\n```javascript\nconst appServer = createServer({\n  cert: readFileSync(resolve(__dirname, './../ssl/cert.pem')),\n  key: readFileSync(resolve(__dirname, './../ssl/cert.key'))\n}, app).listen(3000);\n\napp.use(express.static(resolve(__dirname, './../public')));\n\nconst wsServer = createServer({\n  cert: readFileSync(resolve(__dirname, './../ssl/cert.pem')),\n  key: readFileSync(resolve(__dirname, './../ssl/cert.key'))\n});\nconst wss = new WebSocketServer({ server: wsServer });\n```\n\nNext we listen for any web socket connections and handle them. Don’t worry about the functions we haven’t defined yet, they we will be defined later.\n\n```javascript\nwss.on('connection', (socket) =\u003e {\n  console.log('new connection');\n\n  socket.on('message', (data) =\u003e {\n    console.log('socket::message data=%s', data);\n\n    try {\n      const jsonMessage = JSON.parse(data);\n      handleJsonMessage(socket, jsonMessage);\n    } catch (error) {\n      console.error('failed to handle onmessage', error);\n    }\n  });\n\n\n  socket.once('close', () =\u003e {\n    console.log('socket::close');\n  });\n}); \n```\n\nAbove we listen for any connections, once a connection is established we listen for any messages that come through and parse them into JSON.\n\nNow we can define the function to handle parsed JSON messages.\n\n```javascript\nconst handleJsonMessage = (socket, jsonMessage) =\u003e {\n  switch (jsonMessage.action) {\n    case 'start':\n      socket.id = nanoid();\n      emitMessage(socket, { action: 'start', id: socket.id }); \n      break;\n    default: \n      // Default we will just relay the message to the peer\n      if (!jsonMessage.data.remoteId) return;\n\n      const remotePeerSocket = getSocketById(jsonMessage.data.remoteId);\n\n      if (!remotePeerSocket) {\n        return console.log('failed to find remote socket with id', jsonMessage.data.remoteId);\n      }\n\n      // delete/edit the remoteId depending if the action is offer or not\n      if (jsonMessage.action !== 'offer') {\n        delete jsonMessage.data.remoteId;\n      } else {\n        jsonMessage.data.remoteId = socket.id;\n      }\n\n      emitMessage(remotePeerSocket, jsonMessage);\n  }\n};\n```\n\nHere we get the action from the parsed JSON, if the action is “start” we give the socket a unique ID and send it back to the client. \nAnything else we get the socket of the other peer and just relay the message to them.\nIf the action is not “offer” we delete the remote id as it is not needed anymore. If the action is “offer” we “switch” the remote id to the other party in order to receive an answer.\n\nNext we will create the two helper functions that are missing.\n\n```javascript\nconst emitMessage = (socket, jsonMessage) =\u003e {\n  if (socket.readyState === OPEN) {\n    socket.send(JSON.stringify(jsonMessage));\n  }\n};\n\n// Helper to get socket via id\nconst getSocketById = (socketId) =\u003e\n  Array.from(wss.clients).find((client =\u003e client.id === socketId));\n```\n\nemitMessage simply sends a message to a socket if it is in open state. \ngetSocketById simply returns a socket based on the socket id. (Unique id we defined with nanoid)\n\nFinally let’s start up the web socket server and start listening.\n\n```javascript\nwsServer.listen(8888);\nconsole.log('app server listening on port 3000');\nconsole.log('wss server listening on port 8888');\n```\n\nThat’s the signaling server sorted.\nNow let’s see if it starts!\n\n```bash\nnode src/server.js\n\n# This should print the following output\napp server listening on port 3000\nwss server listening on port 8888\n```\n\nIf you get the above output that means the signaling server is ready to go!\n\nIn the next part we will go into getting the user’s media devices (Camera and Mic) and the constraints we can use to do so. \nHope to see you in the next part!\nhttps://dev.to/ethand91/webrtc-for-beginners-part-2-mediadevices-142d\n\nSource Code: https://github.com/ethand91/webrtc-tutorial\n\n- - - -\n\nBonus: Things to consider:\n* The current signaling server only handles 1 to 1, how could you make it so it support up to 4 clients?\n* It also only supports 1 call, how could you make it support multiple?\n\n---\n\nLike me work? Any support is appreciated. :)\n[![\"Buy Me A Coffee\"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/ethand9999)\n"},"__N_SSG":true},"page":"/post/[slug]","query":{"slug":"webrtc-part-1"},"buildId":"A1-nTi905Wlajv3qpOUpO","assetPrefix":"/fj","isFallback":false,"gsp":true,"scriptLoader":[]}</script></body></html>

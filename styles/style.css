@@ -1,0 +1,778 @@
+@import url('reset.css');
+@import url('fonts.css');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Inter:100,200,300,400,500,600,700,800,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:100,200,300,400,500,600,700,800,900&display=swap');
+@import url('https://use.fontawesome.com/releases/v5.4.2/css/all.css');
+
+html {
+  font: 16px/1.5 -apple-system, BlinkMacSystemFont, 'Matter';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #07050f;
+  background-color: #07050f;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  --first-gradient-coords: -6% 37%;
+  --second-gradient-coords: 107% 59%;
+  background-image: radial-gradient(circle closest-corner at var(--first-gradient-coords), rgba(40, 72, 122, 0.85), transparent), radial-gradient(circle closest-corner at var(--second-gradient-coords), rgba(40, 72, 122, 0.85), transparent);
+}
+
+.container-space {
+  max-width: 70rem;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+#__next {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+
+.scrolllink-classes-cursor {
+  cursor: pointer;
+}
+
+.joey-homepage-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+}
+
+.joey-homepage-wrap .joey-homepage-content h1 {
+  font-weight: 700;
+  text-shadow: 0 0 80px rgb(192 219 255 / 48%), 0 0 32px rgb(65 120 255 / 24%);
+  text-align: center;
+  font-size: 1.5rem;
+  font-family: Matter;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #000, #fff, #000);
+  letter-spacing: 5px;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-repeat: no-repeat;
+  background-size: 80%;
+  animation: shine 2.5s linear infinite;
+  position: relative;
+  padding-bottom: 70px;
+}
+
+
+@keyframes shine {
+  0% {
+    background-position-x: -500%;
+  }
+
+  100% {
+    background-position-x: 500%;
+  }
+}
+
+
+.joey-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 6rem;
+
+}
+
+.joey-ul {
+  flex: 1 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.joey-nav ul li {
+  display: flex;
+  border-radius: 8px;
+  -webkit-transition: 0.3s ease background-color;
+  transition: 0.3s ease background-color;
+}
+
+
+.joey-nav ul .active {
+  color: white;
+}
+
+.joey-nav ul a {
+  display: inline-block;
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  color: white;
+  outline: none;
+  text-decoration: none;
+}
+
+.joey-projects {
+  padding-bottom: 20px;
+  color: #fff;
+}
+
+.joey-projects-content {
+  padding-top: 10rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.joey-projects-content-heading {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 40%;
+  padding-right: 5%;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.joey-projects-content-text {
+  font-family: Matter;
+  font-weight: 600;
+  font-size: 3.75rem;
+  text-shadow: 0 0 80px rgb(192 219 255 / 48%), 0 0 32px rgb(65 120 255 / 24%);
+  letter-spacing: -1.6px;
+  line-height: 4rem;
+  color: rgba(255, 255, 255, 0.96);
+  margin-bottom: 1.2rem;
+}
+
+.joey-projects-content-actualprojects {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  display: grid;
+  grid-gap: 64px;
+  grid-template-columns: repeat(3, 1fr);
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.joey-projects-content-actualprojects-box {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  padding: 1.5rem;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  background: rgba(255, 255, 255, 0.08);
+  will-change: transform, background;
+  -webkit-transition: -webkit-transform, background 0.3s ease;
+  transition: transform, background 0.3s ease;
+  border-radius: 4px;
+  width: 150px;
+}
+
+.joey-projects-content-actualprojects-insidebox {
+  text-align: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: relative;
+  top: -7px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  height: 86px;
+  width: 164px;
+}
+
+.joey-projects-content-actualprojects-images {
+  width: 89px;
+  height: 87px;
+}
+
+img,
+svg,
+picture,
+span,
+b,
+u,
+i,
+small,
+sub,
+strong,
+label {
+  display: inline-block;
+}
+
+.joey-aboutme-image img {
+  max-width: 89%;
+  max-height: 393px;
+  border-radius: 48%;
+}
+
+img {
+  max-width: 100%;
+}
+
+.joey-aboutme {
+  padding-bottom: 20px;
+  color: #fff;
+}
+
+.joey-aboutme-content {
+  padding-top: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.joey-aboutme-title {
+  font-family: Matter;
+  font-weight: 600;
+  font-size: 3.75rem;
+  text-shadow: 0 0 80px rgb(192 219 255 / 48%), 0 0 32px rgb(65 120 255 / 24%);
+  letter-spacing: -1.6px;
+  line-height: 4rem;
+  color: rgba(255, 255, 255, 0.96);
+  margin-bottom: 1.2rem;
+}
+
+.joey-aboutme-header {
+  flex: 3;
+}
+
+.joey-aboutme-image {
+  flex: 2;
+}
+
+.sidebar-menu {
+  display: none;
+}
+
+.postPage {
+  color: white;
+  margin: 0 auto;
+  /* font-size: 1.2em;
+  line-height: 1.5em; */
+  max-width: 70rem;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.postPage h1,
+.postPage h2 {
+  padding-bottom: 10px;
+}
+
+
+
+
+#container-space-blog {
+  max-width: 100%;
+  margin: 0 auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.articleList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1rem;
+  margin-bottom: 5em;
+  width: 1000px;
+  margin: 0 auto;
+  padding-top: 81px;
+  padding-bottom: 500px;
+}
+
+.item {
+  width: 100%;
+  height: 350px;
+  border-radius: 0.5em;
+  padding: 1em;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+.item:hover {
+  transform: scale(1.05);
+}
+
+a {
+  text-decoration: none;
+}
+
+.title {
+  font-size: 1.2em;
+  font-weight: 400;
+  color: white;
+  text-decoration: none;
+
+}
+
+.title:hover {
+  text-decoration: underline;
+}
+
+.description {
+  font-size: 0.96em;
+  font-weight: 300;
+  color: white;
+  text-decoration: none;
+}
+
+.date {
+  margin: unset;
+  font-size: 0.9em;
+  color: #fff;
+  z-index: 2;
+  color: white;
+  text-decoration: none;
+}
+
+
+.thumbnail,
+.thumbnail img {
+  position: relative;
+  border-radius: 0.5em;
+  overflow: hidden;
+  width: 308px;
+  height: 202px;
+  object-fit: cover;
+}
+
+.thumbnail::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+  border-radius: 0.5em;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.thumbnail:hover::before {
+  opacity: 1;
+}
+
+
+/* Add media queries for responsiveness */
+@media screen and (max-width: 1147px) {
+  .articleList {
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+  }
+
+  .item {
+    width: 100%;
+    height: auto;
+    color: white;
+    text-decoration: none;
+    overflow: hidden;
+    width: 308px;
+    height: 202px;
+  }
+
+  .date {
+    font-size: 0.8em;
+    color: white;
+    text-decoration: none;
+    overflow: hidden;
+    width: 308px;
+    height: 202px;
+  }
+
+
+  .thumbnail,
+  .thumbnail img {
+    position: relative;
+    border-radius: 0.5em;
+    overflow: hidden;
+    width: 308px;
+    height: 202px;
+    object-fit: cover;
+  }
+
+  .title {
+    font-size: 1.2em;
+    font-weight: 400;
+    color: white;
+    text-decoration: none;
+    overflow: hidden;
+    width: 308px;
+    height: 69px;
+  }
+
+  .date,
+  .description {
+    color: #fff;
+    text-decoration: none;
+    color: white;
+    text-decoration: none;
+    overflow: hidden;
+    width: 308px;
+    height: 41px;
+  }
+
+  .joey-aboutme-image img {
+    max-width: 315px;
+    max-height: 328px;
+
+    border-radius: 48%;
+}
+}
+
+@media screen and (max-width: 767px) {
+  .articleList {
+    grid-template-columns: 1fr;
+    justify-content: center;
+  }
+
+  .item {
+    width: 100%;
+    height: auto;
+    color: white;
+    text-decoration: none;
+    overflow: hidden;
+    width: 308px;
+    height: 202px;
+  }
+
+  .date {
+    font-size: 0.8em;
+    color: white;
+    text-decoration: none;
+    overflow: hidden;
+    width: 308px;
+    height: 202px;
+  }
+
+
+  .thumbnail,
+  .thumbnail img {
+    position: relative;
+    border-radius: 0.5em;
+    overflow: hidden;
+    width: 308px;
+    height: 202px;
+    object-fit: cover;
+  }
+
+  .title {
+    font-size: 1.2em;
+    font-weight: 400;
+    color: white;
+    text-decoration: none;
+    overflow: hidden;
+    width: 308px;
+    height: 69px;
+  }
+
+  .date,
+  .description {
+    color: #fff;
+    text-decoration: none;
+    color: white;
+    text-decoration: none;
+    overflow: hidden;
+    width: 308px;
+    height: 41px;
+  }
+}
+
+
+footer.joey-footer {
+  margin-top: 70px;
+  border-top: 1px solid #2d2d38;
+  text-align: center;
+  color: white;
+  padding: 25px;
+}
+
+.itess-footer-links li a {
+  color: white;
+  text-decoration: none;
+}
+
+.joey-footer-socialmediaicons {
+  padding: 0 5rem;
+}
+
+.joey-footer-socialmediaicons i {
+  color: white;
+  font-size: 20px;
+  margin: 0 8px;
+}
+
+.joey-footer-socialmediaicons h4 {
+  font-size: 25.11px;
+  font-family: Matter;
+  font-weight: 600;
+  text-shadow: 0 0 80px rgb(192 219 255 / 48%), 0 0 32px rgb(65 120 255 / 24%);
+  line-height: 30.30px;
+  color: rgba(255, 255, 255, 0.96);
+  margin-bottom: 1.2rem
+}
+
+
+
+.pagination-placement {
+  display: flex;
+  justify-content: center;
+}
+
+/* CSS for the pagination container */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* CSS for pagination item */
+.pagination-item {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ccc;
+  margin: 0 5px;
+  cursor: pointer;
+  background-color: #fff;
+  color: #333;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  border-radius: 50%;
+}
+
+.pagination-item:hover {
+  background-color: #f1f1f1;
+}
+
+/* CSS for selected pagination item */
+.pagination-item-selected {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+  border-radius: 50%;
+}
+
+.pagination-item-selected:hover {
+  background-color: #0070e0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 1150px) {
+
+  .joey-ul {
+    display: none;
+  }
+
+  .header-toggle {
+    position: relative;
+    top: 5%;
+    left: -3rem;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: space-around;
+    -webkit-justify-content: space-around;
+    -ms-flex-pack: space-around;
+    justify-content: space-around;
+    width: 2rem;
+    height: 2rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1250;
+  }
+
+  .header-toggle span {
+    width: 2rem;
+    height: 0.25rem;
+    background: #EFFFFA;
+    border-radius: 10px;
+    -webkit-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+    position: relative;
+    -webkit-transform-origin: 1px;
+    -ms-transform-origin: 1px;
+    transform-origin: 1px;
+  }
+
+  .header-toggle span:first-child {
+    -webkit-transform: rotate(0);
+    -ms-transform: rotate(0);
+    transform: rotate(0);
+  }
+
+  .header-toggle span:nth-child(2) {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+    -ms-transform: translateX(0);
+    transform: translateX(0);
+  }
+
+  .header-toggle span:nth-child(3) {
+    -webkit-transform: rotate(0);
+    -ms-transform: rotate(0);
+    transform: rotate(0);
+  }
+
+  .sidebar-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    z-index: 1250;
+    overflow-y: auto;
+    padding: 40px 20px;
+    margin-left: -280px;
+     background: #07050f;
+    -webkit-transition: -webkit-transform 0.3s ease-in-out;
+    -webkit-transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out; 
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+
+  .sidebar-menu.active {
+    margin-left: 0;
+    transition: .3s;
+    z-index: 9;
+  }
+
+
+  #joey-ul-mobile {
+    flex-direction: column;
+  }
+
+  .nav-joeyitems-mobile {
+    flex-direction: column;
+    margin-top: 140px;
+  }
+
+  #joey-ul-mobile .nav-joeyitems-mobile {
+    flex-direction: column;
+    margin-top: 140px;
+  }
+
+
+
+
+
+}
+
+@media (max-width: 760px) {
+  .joey-projects-content {
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }
+
+  .joey-projects-content-heading {
+    width: 100%;
+    padding-right: 0px;
+    text-align: center;
+  }
+
+  .joey-aboutme-title,
+  .joey-projects-content-text {
+    font-size: 2rem;
+    line-height: 3rem;
+  }
+
+  .joey-projects-content-actualprojects {
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 3rem;
+    grid-gap: 20px;
+  }
+
+  .joey-aboutme-content {
+    flex-direction: column;
+    gap: 5rem;
+  }
+
+}
