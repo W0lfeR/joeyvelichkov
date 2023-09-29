@@ -4,7 +4,7 @@ const isProduction = process.env.NODE_ENV === "production"
 const path = require('path');
 
 const nextConfig = {
-  basePath: isProduction ? '/fj' : "",
+  basePath: isProduction ? '/joeyvelichkov' : "",
   output: 'export',
   distDir: 'dist',
   reactStrictMode: true,
